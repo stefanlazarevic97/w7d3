@@ -1,0 +1,19 @@
+<% action_url = ( band.persisted? ? band_url(band) : bands_url ) %>
+<% form_method = ( band.persisted? ? :PATCH : :POST ) %>
+<% submit_value = (band.persisted? ? "Edit Band: " : "Create Band: ") %>
+
+<% if flash[:errors] %>
+    <% flash[:errors].each do |error| %>
+        <p class="error"><%= error %></p>
+    <% end %>
+<% end %>
+
+<form action="<%= action_url %>" method="post">
+    <input type="hidden" name="_method" value="<%= form_method %>">
+    <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+
+    <label for="band_name">Band Name: </label>
+    <input type="text" name="band[name]" id="band_name">
+
+    <input type="submit" value="<%= submit_value %>">
+</form>
