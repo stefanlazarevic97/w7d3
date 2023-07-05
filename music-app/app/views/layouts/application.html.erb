@@ -8,25 +8,31 @@
 
         <%= stylesheet_link_tag "application" %>
     </head>
-
+    
     <body>
+        <header>
+            <h1>Music App</h1>
+            <nav class="nav-links">
+                <% if logged_in? %>
+                    <h2>Logged in as: <%= current_user.email %></h2>
+                    <form class="form" action="<%= session_url %>" method="POST">
+                        <input type="hidden" name="_method" value="DELETE">
+                        <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+                        <input class="form-button" type="submit" value="Log Out!">
+                    </form>
+                <% else %>
+                    <a href="<%= new_session_url %>">Log In</a>
+                    <a href="<%= new_user_url %>">Sign Up</a>
+                <% end %>
+            </nav>
+        </header>   
         <div class="main-content">
-            <h1 class="main-logo">Music App</h1>
-
-            <% if logged_in? %>
-                <h2>Logged in as: <%= current_user.email %></h2>
-                <form class="form" action="<%= session_url %>" method="POST">
-                    <input type="hidden" name="_method" value="DELETE">
-                    <input type="hidden" name="authenticity_token" value="form_authenticity_token">
-                    <input type="submit" value="Log Out!">
-                </form>
-            <% else %>
-                <a href="<%= new_session_url %>">Log In</a>
-                <a href="<%= new_user_url %>">Sign Up</a>
+            <%= yield %>
+            <% if flash[:errors] %>
+                <% flash[:errors].each do |error| %>
+                    <p class="error"><%= error %></p>
+                <% end %>
             <% end %>
-
         </div>
-
-        <%= yield %>
     </body>
 </html>

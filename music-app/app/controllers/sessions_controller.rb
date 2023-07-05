@@ -1,5 +1,6 @@
-class SessionController < ApplicationController
+class SessionsController < ApplicationController
     def new
+        @user = User.new
         render :new
     end
 
@@ -11,7 +12,9 @@ class SessionController < ApplicationController
             redirect_to user_url(@user)
         else
             flash.now[:errors] = ['Invalid email and/or password.']
+            @user = User.new(email: params[:user][:email])
             render :new
+        end
     end
 
     def destroy
