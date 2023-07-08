@@ -1,4 +1,6 @@
 class SessionsController < ApplicationController
+    skip_before_action :require_logged_in, only: %i[new create]
+    
     def new
         @user = User.new
         render :new

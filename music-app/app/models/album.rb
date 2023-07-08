@@ -17,8 +17,11 @@ class Album < ApplicationRecord
     validates :year, numericality: {minimum: 1900, maximum: 2100}
     
     after_initialize :set_defaults
-    
+
     belongs_to :band
+    
+    has_many :tracks,
+        dependent: :destroy
 
     def set_defaults
         self.live ||= false
